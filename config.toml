@@ -27,7 +27,6 @@ highlight_code = true
 
 zulma_brand = {image = "https://raw.githubusercontent.com/wot-rust/media/master/svg/logo.svg", text = "Home"}
 zulma_menu = [
-    {url = "$BASE_URL/categories", name = "Categories"},
-    {url = "$BASE_URL/tags", name = "Tags"},
-    {url = "$BASE_URL/authors", name = "Authors"}
+    {url = "https://github.com/wot-rust", name = "Github"},
+    {url = "$BASE_URL/coc", name = "Code of Conduct"},
 ]
