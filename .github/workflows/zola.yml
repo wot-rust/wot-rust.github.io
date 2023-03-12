@@ -5,7 +5,7 @@ on:
     branches:
       - master
   pull_request:
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,15 +13,15 @@ jobs:
     steps:
       - name: Checkout main
         uses: actions/checkout@v3.0.0
-      - name: Build only 
-        uses: shalzz/zola-deploy-action@v0.16.1
+      - name: Build only
+        uses: shalzz/zola-deploy-action@v0.17.1
         env:
           BUILD_DIR: .
           BUILD_ONLY: true
           BUILD_FLAGS: --drafts
           # A GitHub token is not necessary when BUILD_ONLY is true
           # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
   build_and_deploy:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
@@ -29,7 +29,7 @@ jobs:
       - name: Checkout main
         uses: actions/checkout@v3.0.0
       - name: Build and deploy
-        uses: shalzz/zola-deploy-action@v0.16.1
+        uses: shalzz/zola-deploy-action@v0.17.1
         env:
           BUILD_DIR: .
           PAGES_BRANCH: gh-pages
