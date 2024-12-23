@@ -9,8 +9,6 @@ build_search_index = true
 
 theme = "Zulma"
 
-paginate_by = 5
-
 taxonomies = [
     {name = "categories"},
     {name = "tags", paginate_by = 5, rss = true},
