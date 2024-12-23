@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <!-- Enable responsiveness on mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+    <title>
+        
+    </title>
+
+    
+
+<link id="default" class="stylesheet" rel="stylesheet" href="https://wot-rust.github.io/default.css" />
+
+
+    <!-- This script must follow css -->
+    
+
+    
+
+    
+    <script defer type="text/javascript" src="https://wot-rust.github.io/elasticlunr.min.js"></script>
+    <script defer type="text/javascript" src="https://wot-rust.github.io/search_index.en.js"></script>
+    
+
+    
+<link rel="icon" href="favicon.svg">
+
+
+    <noscript>
+        <style>
+            .navbar-menu {
+                display: block;
+            }
+
+            .js-only {
+                display: none;
+            }
+        </style>
+    </noscript>
+    
+</head>
+
+<body>
+    
+    
+<!-- START NAV -->
+
+
+    
+
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                
+                <a class="navbar-item" href="/">
+                    
+                    <img src="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;wot-rust&#x2F;media&#x2F;master&#x2F;svg&#x2F;logo.svg"
+                        alt="Home">
+                    
+                </a>
+                
+                <span class="navbar-burger burger" data-target="navbarMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+            <div id="navbarMenu" class="navbar-menu">
+                <div class="navbar-end">
+                    
+                    
+                    
+                    
+                    <a itemprop="url"
+                        class="navbar-item "
+                        href="https:&#x2F;&#x2F;github.com&#x2F;wot-rust">
+                        <span itemprop="name">Github
+                        </span>
+                    </a>
+                    
+                    
+                    
+                    <a itemprop="url"
+                        class="navbar-item "
+                        href="https:&#x2F;&#x2F;discord.gg&#x2F;5zy68ukBrv">
+                        <span itemprop="name">Discord
+                        </span>
+                    </a>
+                    
+                    
+                    
+                    <a itemprop="url"
+                        class="navbar-item "
+                        href="https:&#x2F;&#x2F;wot-rust.github.io&#x2F;coc">
+                        <span itemprop="name">Code of Conduct
+                        </span>
+                    </a>
+                    
+                    
+
+                    
+                    <div class="navbar-item search-container js-only">
+                        <input class="input" id="search" type="search" placeholder="Search">
+
+                        <div class="search-results box">
+                            <div class="search-results__items"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+    
+
+<!-- END NAV -->
+<main>
+    <section class="container">
+        <div class="columns is-desktop">
+            <div class="column is-10-desktop is-offset-1-desktop">
+                <article itemscope itemtype="http://schema.org/BlogPosting">
+                    <div class="card article">
+                        <div class="card-content">
+                            
+<header>
+    <div class="has-text-centered">
+        <a href="https://wot-rust.github.io/wot-week-2024/">
+            <p class="title article-title">WoT Week 2024
+            </p>
+        </a>
+        <div class="tags has-addons level-item">
+            
+            <span class="tag is-rounded">2024-12-01</span>
+            
+            
+            <span class="tag is-rounded is-primary">
+                    
+                    Luca Barbato
+                    
+                    
+                    
+                    and
+                    
+                    
+                    
+                    
+                    Jan Romann
+                    
+                    
+                    
+                    
+            </span>
+            
+            <span class="tag is-rounded">
+<svg class="i-clock" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round"
+    stroke-linejoin="round" stroke-width="6.25%">
+    <circle cx="16" cy="16" r="14" />
+    <path d="M16 8 L16 16 20 20" />
+</svg>
+<span>&nbsp;8 minute read</span>
+</span>
+        </div>
+    </div>
+</header>
+
+                            <div itemprop="articleBody" class="content article-body">
+                                <h1 id="wot-week-2024">WoT Week 2024</h1>
+<p>We attended the WoT Week 2024 and we showcased how <a href="https://github.com/wot-rust">wot-rust</a> interoperates with <a href="https://github.com/eclipse-thingweb/dart_wot">dart_wot</a>.</p>
+<h2 id="wot-week-and-plugfest">WoT Week and PlugFest</h2>
+<p>For a while now, the W3C is active in the Internet of Things (IoT) domain and has published Recommendations that deal with improving the interoperability of IoT devices and ecosystems – the Web of Things (WoT) family of standards.
+To test the interoperability of implementations and try out new features that could be incorporated into the specifications, the WoT Working Group hosts regular &quot;PlugFests&quot;.
+After a long hiatus of five years where only online events were possible, members of the Working Group as well as implementors with various backgrounds finally came together in person again for a <a href="https://www.w3.org/WoT/IG/wiki/Wiki_for_WoT_Week_2024_planning">WoT Week</a>.
+The event took place in the Siemens facilities in Garching, Germany, and was accompanied by the WoT conference, where results from the PlugFest were showcased.</p>
+<p>In this blogpost, we are going to describe our contributions to the plugfest based on implementations written in Rust and Dart, and the insights we had during our interoperability tests.</p>
+<p>As all the code used for the examples is open-source, you can also use it as a basis for your own WoT applications.</p>
+<h2 id="demos">Demos</h2>
+<p>One of the long term plans for <strong>wot-rust</strong> is to make so you can write your logic once and run it on widely different targets, e.g. a normal linux target and bare metal.</p>
+<p>On the other hand <strong>dart_wot</strong> aims at making very straightforward write consumers that can run on a desktop as well as on mobile platforms with little to no adaptation, as it can be integrated into cross-platform apps using the Flutter framework.</p>
+<h2 id="flutter-client-dart-wot">Flutter Client (dart_wot)</h2>
+<p>For the demo, we further developed a Flutter app that was originally created for the Eclipse Foundation's Open Community Experience (OCX) to <a href="https://www.youtube.com/watch?v=GK0I8GU7oN4">showcase</a> the capabilities of <code>dart_wot</code> together with other <a href="https://thingweb.io/">Eclipse Thingweb</a> components.
+Similar to its reference implementation <code>node-wot</code>, <code>dart_wot</code> is based on the <a href="https://www.w3.org/TR/wot-scripting-api/">WoT Scripting API</a> and offers an abstration layer to discover and interact with Things using different underlying protocols (currently HTTP, CoAP, and MQTT).
+To support the event mechanism offered by our Things, we added support for server-sent events (SSE) to the HTTP binding during the plugfest, which was a feature that was still missing at that point.</p>
+<p>For the demo, we mainly relied on the HTTP binding implementation to discover Things from a (also <a href="https://www.w3.org/TR/wot-discovery">standardized</a>) Thing Description Directory (TDD) and perform the actual interactions with the Things, i.e. reading/writing properties, subscribing to events, and invoking actions, although the UI for providing values that should be written to the devices still has room for improvement.
+Besides discovery from a TDD and <em>direct</em> retrieval of TDs, the client also supports DNS-based service discovery via mDNS, although during the plugfest we weren't able to utilize yet (see below).</p>
+<p>To implement the app, we relied on the <code>riverpod</code> package for state management which turned out to be really well-usable with <code>dart_wot</code> and eases a lot of pain points you might encounter when building a Flutter app in the &quot;traditional&quot; way (i.e., relying on the <code>setState()</code> method to alter a UI widget's state and trigger a re-render).
+With <code>riverpod</code>, you rely on so-called providers instead that can trigger a partial re-render of UI components when a state change occurs, in our case the value of a property, for example.</p>
+<h2 id="esp32c3-servients-wot-rust">ESP32c3 Servients (wot-rust)</h2>
+<p>The demos target the ESP32c3 <a href="https://github.com/esp-rs/esp-rust-board">rust-board</a> since it provides enough sensors and buttons out of box and is easy to source.</p>
+<p>For this demo we used the latest version of the following crates and while at it contributed a bit to them.</p>
+<h4 id="esp-hal"><a href="https://github.com/esp-rs/esp-hal">esp-hal</a></h4>
+<p>It is the bare-metal HAL for any ESP32 cpu.
+It provides additional niceties such as a <code>println</code> implementation, a simple allocator and wifi support and within it a network stack.</p>
+<h4 id="wot-td"><a href="https://github.com/wot-rust/wot-td">wot-td</a></h4>
+<p>Our crate to build Thing Descriptions, now working also in <code>no_std+alloc</code> environments.</p>
+<h4 id="picoserve"><a href="https://github.com/sammhicks/picoserve">picoserve</a></h4>
+<p>It is the HTTP server we use, it is even <code>no_alloc</code>, but for now we didn't port <code>wot-td</code> to <code>heapless</code> yet.</p>
+<h4 id="edge-mdns"><a href="https://github.com/ivmarkov/edge-net">edge-mdns</a></h4>
+<p>Sadly it didn't make the demo day since it was blocked on a <code>embassy-net</code> update blocked on a <code>smoltcp</code> update.
+The last day of WoT Week most of it got unblocked so now there is a <a href="https://github.com/wot-rust/wot-esp-hal-demo/pull/5">branch</a> sporting it waiting for the <code>edge-net</code> release that uses <code>embassy-net</code> 0.5.</p>
+<h3 id="the-things">The Things</h3>
+<p>With the above ingredients we managed to bake the following 3 demos.</p>
+<h4 id="thermometer"><a href="https://github.com/wot-rust/wot-esp-hal-demo/blob/master/src/bin/thermometer.rs">thermometer</a></h4>
+<p>This is a sensor that updates its two states <strong>temperature</strong> and <strong>humidity</strong> with a defined cadence.</p>
+<p>The information is exposed as a 2 properties that can be polled and events that can be subscribed.</p>
+<p>The information is presented as a simple floating point value with an <code>@type</code> that could hint the consumer on how to present the information.</p>
+<h4 id="button"><a href="https://github.com/wot-rust/wot-esp-hal-demo/blob/master/src/bin/button.rs">button</a></h4>
+<p>This is another kind of sensor that updates as a physical button is pressed, in this case the update is driven by an interrupt we control directly instead of relying on the <code>shtcx</code> abstraction.</p>
+<p>We expose its internal <strong>boolean</strong> state through a property and an event.</p>
+<h4 id="light"><a href="https://github.com/wot-rust/wot-esp-hal-demo/blob/master/src/bin/light.rs">light</a></h4>
+<p>It models an RGB light source, its internal state tracks the <strong>color</strong> and the <strong>brightness</strong> level.</p>
+<!-- I think this one also had a toggle action, right? -->
+<p>In this case the properties can also be written and not just read and we expose the information using a much richer <code>DataSchema</code>:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>    .</span><span style="color:#96b5b4;">object</span><span>()
+</span><span>    .</span><span style="color:#96b5b4;">property</span><span>(&quot;</span><span style="color:#a3be8c;">r</span><span>&quot;, </span><span style="color:#d08770;">true</span><span>, |</span><span style="color:#bf616a;">b</span><span>: DataSchemaBuilder&lt;Nil, Nil, </span><span style="background-color:#bf616a;color:#2b303b;">…</span><span>, …&gt;| {
+</span><span>        b.</span><span style="color:#96b5b4;">finish_extend</span><span>()
+</span><span>            .</span><span style="color:#96b5b4;">integer</span><span>()
+</span><span>            .</span><span style="color:#96b5b4;">title</span><span>(&quot;</span><span style="color:#a3be8c;">Red</span><span>&quot;)
+</span><span>            .</span><span style="color:#96b5b4;">minimum</span><span>(</span><span style="color:#d08770;">0</span><span>)
+</span><span>            .</span><span style="color:#96b5b4;">maximum</span><span>(</span><span style="color:#d08770;">255</span><span>)
+</span><span>    })
+</span><span>    .</span><span style="color:#96b5b4;">property</span><span>(&quot;</span><span style="color:#a3be8c;">g</span><span>&quot;, </span><span style="color:#d08770;">true</span><span>, |</span><span style="color:#bf616a;">b</span><span>: DataSchemaBuilder&lt;Nil, Nil, </span><span style="background-color:#bf616a;color:#2b303b;">…</span><span>, …&gt;| {
+</span><span>        b.</span><span style="color:#96b5b4;">finish_extend</span><span>()
+</span><span>            .</span><span style="color:#96b5b4;">integer</span><span>()
+</span><span>            .</span><span style="color:#96b5b4;">title</span><span>(&quot;</span><span style="color:#a3be8c;">Green</span><span>&quot;)
+</span><span>            .</span><span style="color:#96b5b4;">minimum</span><span>(</span><span style="color:#d08770;">0</span><span>)
+</span><span>            .</span><span style="color:#96b5b4;">maximum</span><span>(</span><span style="color:#d08770;">255</span><span>)
+</span><span>    })
+</span><span>    .</span><span style="color:#96b5b4;">property</span><span>(&quot;</span><span style="color:#a3be8c;">b</span><span>&quot;, </span><span style="color:#d08770;">true</span><span>, |</span><span style="color:#bf616a;">b</span><span>: DataSchemaBuilder&lt;Nil, Nil, </span><span style="background-color:#bf616a;color:#2b303b;">…</span><span>, …&gt;| {
+</span><span>        b.</span><span style="color:#96b5b4;">finish_extend</span><span>()
+</span><span>            .</span><span style="color:#96b5b4;">integer</span><span>()
+</span><span>            .</span><span style="color:#96b5b4;">title</span><span>(&quot;</span><span style="color:#a3be8c;">Blue</span><span>&quot;)
+</span><span>            .</span><span style="color:#96b5b4;">minimum</span><span>(</span><span style="color:#d08770;">0</span><span>)
+</span><span>            .</span><span style="color:#96b5b4;">maximum</span><span>(</span><span style="color:#d08770;">255</span><span>)
+</span><span>    })
+</span></code></pre>
+<h2 id="interactions-interoperability-tests">Interactions/Interoperability Tests</h2>
+<p>Since <code>edge-net</code> was not yet available we couldn't discover our Things via mDNS and had to rely on direct retrieval of the TDs instead.
+Still, the two flavours of WoT implementations worked well together after ironing out a couple of bugs and quirks that we noticed in the setup process.
+In the end, we were able to read and partially also write properties (i.e., the color and brightness of the LED as well as the sensor values), trigger the action that toggles the LED, and subscribe to events via SSE to be informed about temperature changes.
+Some of these interactions are not translated ideally into the UI yet (also due to a lack of semantic annotations, see below), but the app will further evolve in the future to better serve more interaction patterns.</p>
+<h2 id="wishes-for-the-future">Wishes for the future</h2>
+<p>During our tests, we notices a couple of aspects that will hopefully be improved in the ongoing WoT standarization process.</p>
+<h3 id="better-ontologies">Better ontologies</h3>
+<p>Something we would really had enjoyed, but sadly we couldn't test nor implement is leveraging more the <code>@type</code> metadata since we couldn't find an ontology widespread and standard enough to make mapping our rgb object to a colorpicker in a completely automated way.</p>
+<p>This part of WoT is out of the scope of W3C so far, so worst case we'll support what feels the most used one in the opensource communities.</p>
+<h3 id="td-2-0">TD 2.0</h3>
+<p>Our examples implement a draft of WoT Profiles 1.0 SSE and we saw how coupling the <code>property</code> with the <code>event</code> affordances makes adding <code>observe operations</code> potentially redundant.</p>
+<p>One of the proposals for TD 2.0 is to describe even more relationships across affordances, not only which events to subscribe to in order to be notified as a property updates, but also have information on how an ongoing action may change exposed properties (e.g. the light demo will have a <strong>fade</strong> action that impacts the <strong>brightness</strong> property).</p>
+<p>Another is to move the SSE support as a protocol binding and have Profiles 2.0 to signal which capabilities the Clients need in order to fully consume a conforming Thing.</p>
+<p>Hopefully next year we'll meet again and prepare more demos showcasing what you can do with WoT.</p>
+
+                            </div>
+                        </div>
+                        
+                        
+<footer class="card-footer">
+    <div class="article-footer">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <p>
+                    Published
+                    
+
+<time datetime="2024-12-01">
+    2024-12-01
+</time>
+
+
+                    
+
+by
+
+<a href="https://wot-rust.github.io/authors/luca-barbato/">
+    <span class="tag is-primary">Luca Barbato </span>
+</a>
+
+
+
+and
+
+
+
+
+<a href="https://wot-rust.github.io/authors/jan-romann/">
+    <span class="tag is-primary">Jan Romann </span>
+</a>
+
+
+
+
+
+
+                    
+
+
+in <a href="https://wot-rust.github.io/categories/events/">
+    <span class="tag is-success">
+        Events
+    </span>
+</a>
+
+
+                    
+
+and tagged
+
+<a href="https://wot-rust.github.io/tags/rust/">
+    <span class="tag is-link">rust </span>
+</a>
+
+
+
+,
+
+
+
+
+<a href="https://wot-rust.github.io/tags/wot/">
+    <span class="tag is-link">wot </span>
+</a>
+
+
+
+and
+
+
+
+
+<a href="https://wot-rust.github.io/tags/dart/">
+    <span class="tag is-link">dart </span>
+</a>
+
+
+
+
+
+
+                </p>
+            </div>
+            <div class="column">
+                <a class="button is-pulled-right is-info" href="/">Back Home</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+                        
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+</main>
+
+    
+    
+
+
+    
+
+    <script type="text/javascript" src="https://wot-rust.github.io/js/zulma_navbar.js"></script>
+
+    
+    <script type="text/javascript" src="https://wot-rust.github.io/js/zulma_search.js"></script>
+    
+
+    
+</body>
+
+</html>

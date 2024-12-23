@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <!-- Enable responsiveness on mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+    <title>
+        
+    </title>
+
+    
+
+<link id="default" class="stylesheet" rel="stylesheet" href="https://wot-rust.github.io/default.css" />
+
+
+    <!-- This script must follow css -->
+    
+
+    
+
+    
+    <script defer type="text/javascript" src="https://wot-rust.github.io/elasticlunr.min.js"></script>
+    <script defer type="text/javascript" src="https://wot-rust.github.io/search_index.en.js"></script>
+    
+
+    
+<link rel="icon" href="favicon.svg">
+
+
+    <noscript>
+        <style>
+            .navbar-menu {
+                display: block;
+            }
+
+            .js-only {
+                display: none;
+            }
+        </style>
+    </noscript>
+    
+</head>
+
+<body>
+    
+    
+<!-- START NAV -->
+
+
+    
+
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                
+                <a class="navbar-item" href="/">
+                    
+                    <img src="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;wot-rust&#x2F;media&#x2F;master&#x2F;svg&#x2F;logo.svg"
+                        alt="Home">
+                    
+                </a>
+                
+                <span class="navbar-burger burger" data-target="navbarMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+            <div id="navbarMenu" class="navbar-menu">
+                <div class="navbar-end">
+                    
+                    
+                    
+                    
+                    <a itemprop="url"
+                        class="navbar-item "
+                        href="https:&#x2F;&#x2F;github.com&#x2F;wot-rust">
+                        <span itemprop="name">Github
+                        </span>
+                    </a>
+                    
+                    
+                    
+                    <a itemprop="url"
+                        class="navbar-item "
+                        href="https:&#x2F;&#x2F;discord.gg&#x2F;5zy68ukBrv">
+                        <span itemprop="name">Discord
+                        </span>
+                    </a>
+                    
+                    
+                    
+                    <a itemprop="url"
+                        class="navbar-item "
+                        href="https:&#x2F;&#x2F;wot-rust.github.io&#x2F;coc">
+                        <span itemprop="name">Code of Conduct
+                        </span>
+                    </a>
+                    
+                    
+
+                    
+                    <div class="navbar-item search-container js-only">
+                        <input class="input" id="search" type="search" placeholder="Search">
+
+                        <div class="search-results box">
+                            <div class="search-results__items"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+    
+
+<!-- END NAV -->
+<main>
+    <section class="container">
+        <div class="columns is-desktop">
+            <div class="column is-10-desktop is-offset-1-desktop">
+                <article itemscope itemtype="http://schema.org/BlogPosting">
+                    <div class="card article">
+                        <div class="card-content">
+                            
+<header>
+    <div class="has-text-centered">
+        <a href="https://wot-rust.github.io/intro/">
+            <p class="title article-title">Introducing wot-rust
+            </p>
+        </a>
+        <div class="tags has-addons level-item">
+            
+            <span class="tag is-rounded">2022-12-21</span>
+            
+            
+            <span class="tag is-rounded is-primary">
+                    
+                    Luca Barbato
+                    
+                    
+            </span>
+            
+            <span class="tag is-rounded">
+<svg class="i-clock" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round"
+    stroke-linejoin="round" stroke-width="6.25%">
+    <circle cx="16" cy="16" r="14" />
+    <path d="M16 8 L16 16 20 20" />
+</svg>
+<span>&nbsp;4 minute read</span>
+</span>
+        </div>
+    </div>
+</header>
+
+                            <div itemprop="articleBody" class="content article-body">
+                                <p>As part of the contribution from <a href="https://github.com/luminem">Luminem</a>, we are developing a full implementation of the <a href="https://www.w3.org/WoT/wg/">Web of Things</a>.</p>
+<p>We are developing it using <a href="https://rust-lang.org">rust</a> giving a real-life field-test for the developer guidelines and tools we are co-developing with the <a href="https://github.com/SoftengPoliTo/">Software Engineering group @ PoliTO</a>.</p>
+<h2 id="web-of-things">Web of Things</h2>
+<p>Web of Things is a set of W3C specification that aim to address a number of shortcomings around <strong>Connected Devices</strong> pretty much in the same way the <strong>Web</strong> specifications solved the problems regarding browser interoperability.</p>
+<p>The key concept is that a connected device (in WoT jargon <strong>Thing</strong>) should be fully controllable by having just the knowledge of its <strong>Description</strong>.</p>
+<p>A <strong>Thing Description</strong> uses <a href="https://www.w3.org/TR/json-ld11/">JSON-LD</a> to provide the full information on how to interact with a generic <strong>Thing</strong>, exposing its capability through the concept of <strong>Affordances</strong>.</p>
+<p>There are three kind of affordances:</p>
+<ul>
+<li><code>Property</code>, a directly exposed state, that can be directly read or wrote.</li>
+<li><code>Action</code>, a mean to give an arbitrary complex task to the Thing and then get the result of its execution.</li>
+<li><code>Event</code>, an informative message that a Thing may emit at will.</li>
+</ul>
+<p>Every Affordance offers information on how to reach the mapped interaction point and how to format data via <strong>Forms</strong> and <strong>DataSchemas</strong>.</p>
+<p>It looks like this:</p>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>{
+</span><span>    &quot;</span><span style="color:#a3be8c;">@context</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">https://www.w3.org/2022/wot/td/v1.1</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">id</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">urn:dev:ops:32473-WoTLamp-1234</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">title</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">MyLampThing</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">securityDefinitions</span><span>&quot;: {
+</span><span>        &quot;</span><span style="color:#a3be8c;">basic_sc</span><span>&quot;: {&quot;</span><span style="color:#a3be8c;">scheme</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">basic</span><span>&quot;, &quot;</span><span style="color:#a3be8c;">in</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">header</span><span>&quot;}
+</span><span>    },
+</span><span>    &quot;</span><span style="color:#a3be8c;">security</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">basic_sc</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">properties</span><span>&quot;: {
+</span><span>        &quot;</span><span style="color:#a3be8c;">status</span><span>&quot;: {
+</span><span>            &quot;</span><span style="color:#a3be8c;">type</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">string</span><span>&quot;,
+</span><span>            &quot;</span><span style="color:#a3be8c;">forms</span><span>&quot;: [{&quot;</span><span style="color:#a3be8c;">href</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">https://mylamp.example.com/status</span><span>&quot;}]
+</span><span>        }
+</span><span>    },
+</span><span>    &quot;</span><span style="color:#a3be8c;">actions</span><span>&quot;: {
+</span><span>        &quot;</span><span style="color:#a3be8c;">toggle</span><span>&quot;: {
+</span><span>            &quot;</span><span style="color:#a3be8c;">forms</span><span>&quot;: [{&quot;</span><span style="color:#a3be8c;">href</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">https://mylamp.example.com/toggle</span><span>&quot;}]
+</span><span>        }
+</span><span>    },
+</span><span>    &quot;</span><span style="color:#a3be8c;">events</span><span>&quot;:{
+</span><span>        &quot;</span><span style="color:#a3be8c;">overheating</span><span>&quot;:{
+</span><span>            &quot;</span><span style="color:#a3be8c;">data</span><span>&quot;: {&quot;</span><span style="color:#a3be8c;">type</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">string</span><span>&quot;},
+</span><span>            &quot;</span><span style="color:#a3be8c;">forms</span><span>&quot;: [{
+</span><span>                &quot;</span><span style="color:#a3be8c;">href</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">https://mylamp.example.com/oh</span><span>&quot;,
+</span><span>                &quot;</span><span style="color:#a3be8c;">subprotocol</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">longpoll</span><span>&quot;
+</span><span>            }]
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>And being a <strong>JSON-LD</strong>, its <a href="https://www.w3.org/TR/json-ld11/#the-context">@context</a> can be used to add additional information and extend its expressivity, e.g supporting additional <a href="https://w3c.github.io/wot-binding-templates/#protocol-intro">protocols</a> or providing more details.</p>
+<p>In <a href="https://www.sifis-home.eu">SIFIS-Home</a> we try to make so that every <a href="https://www.sifis-home.eu/ontology">potential hazard</a> related to the use of a <strong>Connected Device</strong> is evident to the user and the to the system controlling it.</p>
+<p>The <strong>Thing Description</strong> can easily use our <a href="https://www.sifis-home.eu/ontology">hazard ontology</a> by adding it to the <code>@context</code>, and any program using it (<strong>Consumer</strong> in WoT jargon) can use or ignore the additional information as it see fit. A SIFIS-Home WoT Device can be still used by any WoT implementation.</p>
+<h2 id="wot-rust">wot-rust</h2>
+<p>We split our implementation in multiple crates, to keep the different concers <a href="https://en.wikipedia.org/wiki/Separation_of_concerns">separated</a>:</p>
+<ul>
+<li><a href="https://crates.io/crates/wot-td">wot-td</a> Only focuses on building, serialising and deserialising the <strong>Thing Descriptions</strong></li>
+<li><a href="https://crates.io/crates/wot-serve">wot-serve</a> Simplifies the creation of the application server that exposes the <strong>Thing</strong> affordances to the world. As the first release we only support HTTP via <a href="https://github.com/tokio-rs/axum">axum</a>.</li>
+<li><a href="https://crates.io/crates/wot-discovery">wot-discovery</a> Let you find and keep a Directory of Things available in your network.</li>
+<li><a href="https://crates.io/crates/wot-consume">wot-consume</a> Simplifies using a <strong>Thing</strong> by abstracting away as many details as possible. It is the moral dual of <strong>wot-serve</strong> and it is a wrapper around <a href="https://crates.io/crates/reqwest">reqwest</a>.</li>
+</ul>
+<p>During the next weeks we'll publish more blogpost about our implementation journey, our interaction with the larger WoT-wg community and how this technology is being used in SIFIS-Home.</p>
+<h2 id="author">Author</h2>
+<p><a href="https://github.com/lu-zero">Luca Barbato</a> is a long-time Open Source contributor, member of VideoLan, Gentoo, X.org and a few other organizations. He participates in SIFIS-Home with his company, <a href="http://luminem.it">Luminem SRL</a>.</p>
+
+                            </div>
+                        </div>
+                        
+                        
+<footer class="card-footer">
+    <div class="article-footer">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <p>
+                    Published
+                    
+
+<time datetime="2022-12-21">
+    2022-12-21
+</time>
+
+
+                    
+
+by
+
+<a href="https://wot-rust.github.io/authors/luca-barbato/">
+    <span class="tag is-primary">Luca Barbato </span>
+</a>
+
+
+
+
+                    
+
+
+in <a href="https://wot-rust.github.io/categories/hello-world/">
+    <span class="tag is-success">
+        Hello world
+    </span>
+</a>
+
+
+                    
+
+and tagged
+
+<a href="https://wot-rust.github.io/tags/rust/">
+    <span class="tag is-link">rust </span>
+</a>
+
+
+
+and
+
+
+
+
+<a href="https://wot-rust.github.io/tags/wot/">
+    <span class="tag is-link">wot </span>
+</a>
+
+
+
+
+
+
+                </p>
+            </div>
+            <div class="column">
+                <a class="button is-pulled-right is-info" href="/">Back Home</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+                        
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+</main>
+
+    
+    
+
+
+    
+
+    <script type="text/javascript" src="https://wot-rust.github.io/js/zulma_navbar.js"></script>
+
+    
+    <script type="text/javascript" src="https://wot-rust.github.io/js/zulma_search.js"></script>
+    
+
+    
+</body>
+
+</html>

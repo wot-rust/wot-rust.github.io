@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <!-- Enable responsiveness on mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+    <title>
+        
+    </title>
+
+    
+
+<link id="default" class="stylesheet" rel="stylesheet" href="https://wot-rust.github.io/default.css" />
+
+
+    <!-- This script must follow css -->
+    
+
+    
+
+    
+    <script defer type="text/javascript" src="https://wot-rust.github.io/elasticlunr.min.js"></script>
+    <script defer type="text/javascript" src="https://wot-rust.github.io/search_index.en.js"></script>
+    
+
+    
+<link rel="icon" href="favicon.svg">
+
+
+    <noscript>
+        <style>
+            .navbar-menu {
+                display: block;
+            }
+
+            .js-only {
+                display: none;
+            }
+        </style>
+    </noscript>
+    
+</head>
+
+<body>
+    
+    
+<!-- START NAV -->
+
+
+    
+
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                
+                <a class="navbar-item" href="/">
+                    
+                    <img src="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;wot-rust&#x2F;media&#x2F;master&#x2F;svg&#x2F;logo.svg"
+                        alt="Home">
+                    
+                </a>
+                
+                <span class="navbar-burger burger" data-target="navbarMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+            <div id="navbarMenu" class="navbar-menu">
+                <div class="navbar-end">
+                    
+                    
+                    
+                    
+                    <a itemprop="url"
+                        class="navbar-item "
+                        href="https:&#x2F;&#x2F;github.com&#x2F;wot-rust">
+                        <span itemprop="name">Github
+                        </span>
+                    </a>
+                    
+                    
+                    
+                    <a itemprop="url"
+                        class="navbar-item "
+                        href="https:&#x2F;&#x2F;discord.gg&#x2F;5zy68ukBrv">
+                        <span itemprop="name">Discord
+                        </span>
+                    </a>
+                    
+                    
+                    
+                    <a itemprop="url"
+                        class="navbar-item "
+                        href="https:&#x2F;&#x2F;wot-rust.github.io&#x2F;coc">
+                        <span itemprop="name">Code of Conduct
+                        </span>
+                    </a>
+                    
+                    
+
+                    
+                    <div class="navbar-item search-container js-only">
+                        <input class="input" id="search" type="search" placeholder="Search">
+
+                        <div class="search-results box">
+                            <div class="search-results__items"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+    
+
+<!-- END NAV -->
+<main>
+    <section class="container">
+        <div class="columns is-desktop">
+            <div class="column is-10-desktop is-offset-1-desktop">
+                <article itemscope itemtype="http://schema.org/BlogPosting">
+                    <div class="card article">
+                        <div class="card-content">
+                            
+<header>
+    <div class="has-text-centered">
+        <a href="https://wot-rust.github.io/datta/">
+            <p class="title article-title">From uritemplate to datta
+            </p>
+        </a>
+        <div class="tags has-addons level-item">
+            
+            <span class="tag is-rounded">2022-12-22</span>
+            
+            
+            <span class="tag is-rounded is-primary">
+                    
+                    Luca Barbato
+                    
+                    
+                    
+                    and
+                    
+                    
+                    
+                    
+                    Edoardo Morandi
+                    
+                    
+                    
+                    
+            </span>
+            
+            <span class="tag is-rounded">
+<svg class="i-clock" viewBox="0 0 32 32" width="16" height="16" fill="none" stroke="currentcolor" stroke-linecap="round"
+    stroke-linejoin="round" stroke-width="6.25%">
+    <circle cx="16" cy="16" r="14" />
+    <path d="M16 8 L16 16 20 20" />
+</svg>
+<span>&nbsp;6 minute read</span>
+</span>
+        </div>
+    </div>
+</header>
+
+                            <div itemprop="articleBody" class="content article-body">
+                                <p>To implement a part of <a href="http://crates.io/crates/wot-serve">wot-serve</a> we had to implement a mapping between the <a href="https://www.rfc-editor.org/rfc/rfc6570">uritemplates</a> used in the WoT <a href="https://www.w3.org/TR/wot-thing-description11/#form-uriVariables">Forms</a> and the Axum <a href="https://docs.rs/axum/latest/axum/extract/struct.Path.html">Paths</a>.</p>
+<p>We looked at the crates available and we noticed that <a href="https://crates.io/crates/uritemplate">uritemplate</a> would fit our needs but it is not updated since 6 years ago, with short winded tries to update it as <a href="https://crates.io/crates/uritemplate-next">uritemplate-next</a>.</p>
+<h2 id="shortcomings">Shortcomings</h2>
+<ul>
+<li>Pre-2018 codebase</li>
+<li>Plenty of <a href="https://rust-lang.github.io/rust-clippy/">clippy</a> triggers</li>
+<li>Missing CI</li>
+<li>Stale dependencies: <code>regex</code> and <code>thread_local</code> faults were caught by <code>cargo audit</code></li>
+</ul>
+<pre data-lang="console" style="background-color:#2b303b;color:#c0c5ce;" class="language-console "><code class="language-console" data-lang="console"><span>❯ cargo audit
+</span><span>    Fetching advisory database from `https://github.com/RustSec/advisory-db.git`
+</span><span>      Loaded 485 security advisories (from /Users/lu_zero/.cargo/advisory-db)
+</span><span>    Updating crates.io index
+</span><span>    Scanning Cargo.lock for vulnerabilities (12 crate dependencies)
+</span><span>Crate:         regex
+</span><span>Version:       0.1.80
+</span><span>Title:         Regexes with large repetitions on empty sub-expressions take a very long time to parse
+</span><span>Date:          2022-03-08
+</span><span>ID:            RUSTSEC-2022-0013
+</span><span>URL:           https://rustsec.org/advisories/RUSTSEC-2022-0013
+</span><span>Solution:      Upgrade to &gt;=1.5.5
+</span><span>Dependency tree:
+</span><span>regex 0.1.80
+</span><span>└── uritemplate 0.1.2
+</span><span>
+</span><span>Crate:         thread_local
+</span><span>Version:       0.2.7
+</span><span>Title:         Data race in `Iter` and `IterMut`
+</span><span>Date:          2022-01-23
+</span><span>ID:            RUSTSEC-2022-0006
+</span><span>URL:           https://rustsec.org/advisories/RUSTSEC-2022-0006
+</span><span>Solution:      Upgrade to &gt;=1.1.4
+</span><span>Dependency tree:
+</span><span>thread_local 0.2.7
+</span><span>└── regex 0.1.80
+</span><span>    └── uritemplate 0.1.2
+</span><span>
+</span><span>error: 2 vulnerabilities found!
+</span></code></pre>
+<p>Since we wanted to test how our <a href="https://crates.io/crates/sifis-generate">sifis-generate</a>d CI behaved, we had <a href="https://github.com/rust-lang/miri">Miri</a> catch at least one problem while running the test suite.</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>test test_additional_examples_1 ... error: Undefined Behavior: trying to retag from &lt;1436802&gt; for Unique permission at alloc589893[0x0], but that tag does not exist in the borrow stack for this location
+</span><span>   --&gt; /Users/lu_zero/.cargo/registry/src/github.com-1ecc6299db9ec823/thread_local-0.2.7/src/lib.rs:122:9
+</span><span>    |
+</span><span>122 |         mem::transmute(raw)
+</span><span>    |         ^^^^^^^^^^^^^^^^^^^
+</span><span>    |         |
+</span><span>    |         trying to retag from &lt;1436802&gt; for Unique permission at alloc589893[0x0], but that tag does not exist in the borrow stack for this location
+</span><span>    |         this error occurs as part of retag at alloc589893[0x0..0x20]
+</span><span>    |
+</span><span>    = help: this indicates a potential bug in the program: it performed an invalid operation, but the Stacked Borrows rules it violated are still experimental
+</span><span>    = help: see https://github.com/rust-lang/unsafe-code-guidelines/blob/master/wip/stacked-borrows.md for further information
+</span><span>help: &lt;1436802&gt; was created by a SharedReadWrite retag at offsets [0x0..0x20]
+</span><span>   --&gt; /Users/lu_zero/Sources/rust/rust-uritemplate/src/percent_encoding.rs:90:5
+</span><span>    |
+</span><span>90  |     Regex::new(&quot;%25(?P&lt;hex&gt;[0-9a-fA-F][0-9a-fA-F])&quot;)
+</span><span>    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span>help: &lt;1436802&gt; was later invalidated at offsets [0x0..0x20] by a Unique retag
+</span><span>   --&gt; /Users/lu_zero/Sources/rust/rust-uritemplate/src/percent_encoding.rs:90:5
+</span><span>    |
+</span><span>90  |     Regex::new(&quot;%25(?P&lt;hex&gt;[0-9a-fA-F][0-9a-fA-F])&quot;)
+</span><span>    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span>    = note: BACKTRACE (of the first span):
+</span><span>    = note: inside `&lt;std::boxed::Box&lt;thread_local::Table&lt;std::cell::RefCell&lt;regex::exec::ProgramCacheInner&gt;&gt;&gt; as thread_local::BoxExt&lt;thread_local::Table&lt;std::cell::RefCell&lt;regex::exec::ProgramCacheInner&gt;&gt;&gt;&gt;::from_raw` at /Users/lu_zero/.cargo/registry/src/github.com-1ecc6299db9ec823/thread_local-0.2.7/src/lib.rs:122:9: 122:28
+</span><span>    = note: inside `&lt;thread_local::ThreadLocal&lt;std::cell::RefCell&lt;regex::exec::ProgramCacheInner&gt;&gt; as std::ops::Drop&gt;::drop` at /Users/lu_zero/.cargo/registry/src/github.com-1ecc6299db9ec823/thread_local-0.2.7/src/lib.rs:174:36: 174:88
+</span><span>    = note: inside `std::ptr::drop_in_place::&lt;thread_local::ThreadLocal&lt;std::cell::RefCell&lt;regex::exec::ProgramCacheInner&gt;&gt;&gt; - shim(Some(thread_local::ThreadLocal&lt;std::cell::RefCell&lt;regex::exec::ProgramCacheInner&gt;&gt;))` at /Users/lu_zero/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:490:1: 490:56
+</span><span>    = note: inside `std::ptr::drop_in_place::&lt;thread_local::CachedThreadLocal&lt;std::cell::RefCell&lt;regex::exec::ProgramCacheInner&gt;&gt;&gt; - shim(Some(thread_local::CachedThreadLocal&lt;std::cell::RefCell&lt;regex::exec::ProgramCacheInner&gt;&gt;))` at /Users/lu_zero/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:490:1: 490:56
+</span><span>    = note: inside `std::ptr::drop_in_place::&lt;regex::exec::Exec&gt; - shim(Some(regex::exec::Exec))` at /Users/lu_zero/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:490:1: 490:56
+</span><span>    = note: inside `std::ptr::drop_in_place::&lt;regex::re_unicode::_Regex&gt; - shim(Some(regex::re_unicode::_Regex))` at /Users/lu_zero/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:490:1: 490:56
+</span><span>    = note: inside `std::ptr::drop_in_place::&lt;regex::re_unicode::Regex&gt; - shim(Some(regex::re_unicode::Regex))` at /Users/lu_zero/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:490:1: 490:56
+</span><span>note: inside `uritemplate::percent_encoding::encode_reserved`
+</span><span>   --&gt; /Users/lu_zero/Sources/rust/rust-uritemplate/src/percent_encoding.rs:93:1
+</span><span>    |
+</span><span>93  | }
+</span><span>    | ^
+</span><span>note: inside `uritemplate::UriTemplate::build_varspec::&lt;for&lt;&#39;a&gt; fn(&amp;&#39;a str) -&gt; std::string::String {uritemplate::percent_encoding::encode_unreserved}&gt;`
+</span><span>   --&gt; /Users/lu_zero/Sources/rust/rust-uritemplate/src/lib.rs:297:43
+</span><span>    |
+</span><span>297 | ...                   res.push_str(&amp;encode_reserved(&amp;v.name));
+</span><span>    |                                     ^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span>note: inside `uritemplate::UriTemplate::build_varlist`
+</span><span>   --&gt; /Users/lu_zero/Sources/rust/rust-uritemplate/src/lib.rs:419:17
+</span><span>    |
+</span><span>419 | /                 self.build_varspec(
+</span><span>420 | |                     varspec,
+</span><span>421 | |                     sep,
+</span><span>422 | |                     named,
+</span><span>423 | |                     ifemp,
+</span><span>424 | |                     encode_unreserved
+</span><span>425 | |                 )
+</span><span>    | |_________________^
+</span><span>note: inside `uritemplate::UriTemplate::build`
+</span><span>   --&gt; /Users/lu_zero/Sources/rust/rust-uritemplate/src/lib.rs:459:21
+</span><span>    |
+</span><span>459 |                     self.build_varlist(op, varlist)
+</span><span>    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</span><span>note: inside `test_additional_examples_1`
+</span><span>   --&gt; tests/extended_tests.rs:58:42
+</span><span>    |
+</span><span>58  |     assert!(template_1_answers.contains(&amp;templates[1].build().as_ref()));
+</span><span>    |                                          ^^^^^^^^^^^^^^^^^^^^
+</span><span>note: inside closure
+</span><span>   --&gt; tests/extended_tests.rs:8:33
+</span><span>    |
+</span><span>7   | #[test]
+</span><span>    | ------- in this procedural macro expansion
+</span><span>8   | fn test_additional_examples_1() {
+</span><span>    |                                 ^
+</span><span>    = note: this error originates in the attribute macro `test` (in Nightly builds, run with -Z macro-backtrace for more info)
+</span></code></pre>
+<p><code>Miri</code> works!</p>
+<h2 id="mitigation">Mitigation</h2>
+<ul>
+<li>Since the original developer literally <a href="https://github.com/chowdhurya?tab=overview&amp;from=2019-12-01&amp;to=2019-12-31">disappeared</a> in 2019 we created a full fork of the crate.</li>
+<li>We made sure to update it to the Rust edition 2021</li>
+<li>We addressed all the lints clippy found</li>
+<li>We updated the dependencies so <code>cargo audit</code> report is clear</li>
+<li>We set up the CI using the <code>sifis-generate</code> stock rust github template</li>
+</ul>
+<h2 id="updates-and-release">Updates and Release</h2>
+<p>Once the project is clear we extended its API to fit the <a href="https://crates.io/crates/datta">wot-serve</a> needs, updated documentation and prepared a release.</p>
+<p>We sent a <a href="https://github.com/s-panferov/valico/pull/86">PR</a> to <a href="https://github.com/s-panferov/valico">valico</a> since it is a crate we might use in the future.</p>
+
+                            </div>
+                        </div>
+                        
+                        
+<footer class="card-footer">
+    <div class="article-footer">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <p>
+                    Published
+                    
+
+<time datetime="2022-12-22">
+    2022-12-22
+</time>
+
+
+                    
+
+by
+
+<a href="https://wot-rust.github.io/authors/luca-barbato/">
+    <span class="tag is-primary">Luca Barbato </span>
+</a>
+
+
+
+and
+
+
+
+
+<a href="https://wot-rust.github.io/authors/edoardo-morandi/">
+    <span class="tag is-primary">Edoardo Morandi </span>
+</a>
+
+
+
+
+
+
+                    
+
+
+in <a href="https://wot-rust.github.io/categories/crates/">
+    <span class="tag is-success">
+        Crates
+    </span>
+</a>
+
+
+                    
+
+and tagged
+
+<a href="https://wot-rust.github.io/tags/rust/">
+    <span class="tag is-link">rust </span>
+</a>
+
+
+
+
+                </p>
+            </div>
+            <div class="column">
+                <a class="button is-pulled-right is-info" href="/">Back Home</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+                        
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+</main>
+
+    
+    
+
+
+    
+
+    <script type="text/javascript" src="https://wot-rust.github.io/js/zulma_navbar.js"></script>
+
+    
+    <script type="text/javascript" src="https://wot-rust.github.io/js/zulma_search.js"></script>
+    
+
+    
+</body>
+
+</html>
